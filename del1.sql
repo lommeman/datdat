@@ -35,7 +35,7 @@ CREATE TABLE Akt(
     PRIMARY KEY(Teaterstykkenavn, Aktnr),
     FOREIGN KEY(Teaterstykkenavn) REFERENCES Teaterstykke(Navn)
 );
--- Alle teaterstykker må være i Akt tabellen.    
+-- Alle teaterstykker må være i Akt tabellen.  
 
 CREATE TABLE HarRolle(
     Aktnr INTEGER NOT NULL,
@@ -131,59 +131,5 @@ CREATE TABLE Kunde(
     Adresse TEXT,
     PRIMARY KEY(KundeID)
 );
-
-INSERT INTO Sal(Navn, TeaterstykkeNavn) 
-VALUES ('Hovedscnen', 'Kongsemnene'),
-       ('Gamle scene', 'Størst av alt er kjærligheten');
-
-INSERT INTO Teaterstykke(Navn, Salnavn, Tid)
-VALUES ('Kongsemnene', 'Hovedscnen', '19:00'),
-       ('Størst av alt er kjærligheten', 'Gamle scene', '18:30');
-
-INSERT INTO Område(SalNavn, Navn)
-VALUES ('Hovedscnen', 'Venstre galleri'),
-       ('Hovedscnen', 'Høyre galleri'),
-       ('Hovedscnen', 'Parkett'),
-       ('Gamle scene', 'Balkong'),
-       ('Gamle scene', 'Parkett'),
-       ('Gamle scene', 'Galleri');
-
-INSERT INTO Forestilling(TeaterstykkeNavn, Dato)
-VALUES ('Kongsemnene', '2024-02-01'),
-       ('Kongsemnene', '2024-02-02'),
-       ('Kongsemnene', '2024-02-03'),
-       ('Kongsemnene', '2024-02-05'),
-       ('Kongsemnene', '2024-02-06'),
-       ('Størst av alt er kjærligheten', '2024-02-03'),
-       ('Størst av alt er kjærligheten', '2024-02-06'),
-       ('Størst av alt er kjærligheten', '2024-02-07'),
-       ('Størst av alt er kjærligheten', '2024-02-12'),
-       ('Størst av alt er kjærligheten', '2024-02-13'),
-       ('Størst av alt er kjærligheten', '2024-02-14');
-
-INSERT INTO Akt(Teaterstykkenavn, Aktnr, Aktnavn)
-VALUES ('Kongsemnene', '1', 'Akt 1'),
-       ('Kongsemnene', '2', 'Akt 2'),
-       ('Kongsemnene', '3', 'Akt 3'),
-       ('Kongsemnene', '4', 'Akt 4'),
-       ('Kongsemenene', '5', 'Akt 5'),
-       ('Størst av alt er kjærligheten', '1', 'Akt 1');
-
-INSERT INTO Ansatt(AnsattID, Navn, Epostadresse, Ansattstatus, Stilling)
-VALUES ('1', ' Elisabeth Egseth Hansen', NULL, 'Fast Ansatt', 'Stab'),
-       ('2', '')
-
-INSERT INTO Gruppe(TeaterstykkeNavn, Gruppenavn, Pris)
-VALUES ('Kongsemnene', 'Ordinær', '450'),
-       ('Kongsemnene', 'Honnør', '380'),
-       ('Kongsemnene', 'Student', '280'),
-       ('Kongsemnene', 'Gruppe 10', '420'),
-       ('Kongsemnene', 'Gruppe honnør', '360'),
-       ('Størst av alt er kjærligheten', 'Ordinær', '350'),
-       ('Størst av alt er kjærligheten', 'Honnør', '300'),
-       ('Størst av alt er kjærligheten', 'Student', '220'),
-       ('Størst av alt er kjærligheten', 'Barn', '220'),
-       ('Størst av alt er kjærligheten', 'Gruppe 10', '320'),
-       ('Størst av alt er kjærligheten', 'Gruppe honnør', '270');
 
 --SELECT name FROM sqlite_master WHERE type='table';
