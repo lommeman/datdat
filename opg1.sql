@@ -1,5 +1,5 @@
 INSERT INTO Teaterstykke(Navn, Salnavn, Tid)
-VALUES ('Kongsemnene', 'Hovedscnen', '19:00'),
+VALUES ('Kongsemnene', 'Hovedscenen', '19:00'),
        ('Størst av alt er kjærligheten', 'Gamle scene', '18:30');
 
 INSERT INTO Forestilling(TeaterstykkeNavn, Dato)
@@ -24,13 +24,12 @@ VALUES ('Kongsemnene', 1, 'Akt 1'),
        ('Størst av alt er kjærligheten', 1, 'Akt 1');
 
 INSERT INTO Sal(Navn, TeaterstykkeNavn) 
-VALUES ('Hovedscnen', 'Kongsemnene'),
+VALUES ('Hovedscenen', 'Kongsemnene'),
        ('Gamle scene', 'Størst av alt er kjærligheten');
 
 INSERT INTO Område(SalNavn, Navn)
-VALUES ('Hovedscnen', 'Venstre galleri'),
-       ('Hovedscnen', 'Høyre galleri'),
-       ('Hovedscnen', 'Parkett'),
+VALUES ('Hovedscenen', 'Galleri'),
+       ('Hovedscenen', 'Parkett'),
        ('Gamle scene', 'Balkong'),
        ('Gamle scene', 'Parkett'),
        ('Gamle scene', 'Galleri');
@@ -73,11 +72,11 @@ VALUES
        (21, 'Trond-Ove Skrødal', NULL, 'Fast Ansatt', 'Skuespiller'),
        (22, 'Natalie Grøndahl Tangen', NULL, 'Fast Ansatt', 'Skuespiller'),
        (23, 'Åsmund Flaten', NULL, 'Fast Ansatt', 'Skuespiller'),
-       (24, 'Jonas Corell Petersen', NULL, 'Fast ansatt', 'Stab'),
-       (25, 'David Gehrt', NULL, 'Fast ansatt', 'Stab'),
-       (26, 'Gaute Tønder', NULL, 'Fast ansatt', 'Stab'),
-       (27, 'Magnus Mikaelsen', NULL, 'Fast ansatt', 'Stab'),
-       (28, 'Kristoffer Spender', NULL, 'Fast ansatt', 'Stab');
+       (24, 'Jonas Corell Petersen', NULL, 'Fast Ansatt', 'Stab'),
+       (25, 'David Gehrt', NULL, 'Fast Ansatt', 'Stab'),
+       (26, 'Gaute Tønder', NULL, 'Fast Ansatt', 'Stab'),
+       (27, 'Magnus Mikaelsen', NULL, 'Fast Ansatt', 'Stab'),
+       (28, 'Kristoffer Spender', NULL, 'Fast Ansatt', 'Stab');
 
 Insert INTO HarRolle(AnsattID, Aktnr, Rollenavn)
 VALUES (1, 1, 'Kari'),
@@ -120,9 +119,10 @@ VALUES (1, 1, 'Kari'),
        (26, 4, 'Paal Flida'),
        (26, 5, 'Paal Flida'),
        (27, 1, 'Baard Bratte'),
-       (27, 1, 'Baard Bratte'),
-       (27, 1, 'Baard Bratte'),
-       (27, 1, 'Baard Bratte'),
+       (27, 2, 'Baard Bratte'),
+       (27, 3, 'Baard Bratte'),
+       (27, 4, 'Baard Bratte'),
+       (27, 5, 'Baard Bratte'),
        (28, 4, 'Jatgeir Skald'),
        (29, 1, 'Dagfinn Bonde'),
        (29, 2, 'Dagfinn Bonde'),

@@ -59,8 +59,8 @@ CREATE TABLE Ansatt(
     AnsattID INTEGER NOT NULL,
     Navn TEXT NOT NULL,
     Epostadresse TEXT, --Ikke alle har nødvendigvis en epostadresse i vår miniverden. Feks bestemor.
-    Ansattstatus TEXT NOT NULL CHECK(Stilling IN ('Midlertidig ansatt', 'Fast Ansatt', 'Innleid', 'Frivillig')),
-    Stilling TEXT NOT NULL CHECK(Ansattstatus IN ('Stab', 'Skuespiller')),
+    Ansattstatus TEXT NOT NULL CHECK(Ansattstatus IN ('Midlertidig ansatt', 'Fast Ansatt', 'Innleid', 'Frivillig')),
+    Stilling TEXT NOT NULL CHECK(Stilling IN ('Stab', 'Skuespiller')),
     PRIMARY KEY(AnsattID)
 );
 
@@ -84,11 +84,12 @@ CREATE TABLE Billett(
     Setenr INTEGER NOT NULL,
     Radnr INTEGER NOT NULL,
     OmrådeNavn TEXT NOT NULL,
-    Pris REAL NOT NULL,
     PRIMARY KEY(BillettID),
-    FOREIGN KEY(OmrådeNavn) REFERENCES Område(Navn),
-    FOREIGN KEY(Pris) REFERENCES Gruppe(Pris)
+    FOREIGN KEY(OmrådeNavn) REFERENCES Område(Navn)
+    
 );
+
+--byttet hvor pris står henn, står bare i gruppe nå
 
 CREATE TABLE BillettSolgtTilForestilling(
     BillettID INTEGER NOT NULL,
