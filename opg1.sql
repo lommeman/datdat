@@ -143,3 +143,4 @@ VALUES ('Kongsemnene', 'Regi og musikkutvelgelse', 13),
        ('Størst av alt er kjærligheten', 'Musikalsk ansvarlig', 26),
        ('Størst av alt er kjærligheten', 'Lysdesign', 27),
        ('Størst av alt er kjærligheten', 'Dramaturg', 28);
+

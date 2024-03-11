@@ -1,8 +1,7 @@
 import sqlite3
 
-with sqlite3.connect('teaterdatabase.db') as conn:
-    c = conn.cursor()
-    conn = sqlite3.connect('teaterdatabase.db', timeout=10)
+conn = sqlite3.connect('DBTeater.db')
+c = conn.cursor()
 
 
 
@@ -12,10 +11,16 @@ def registrert_solge_seter(filename):
         dato = ''
         område = ''
         solgt_seter = []
-        rad_nr = 0
 
         områder = set(line.strip() for line in lines if line.strip() in ["Galleri", "Balkong", "Parkett"])
-        sal = 'Hovedscenen' if 'Parkett' in områder and 'Galleri' in områder and 'Balkong' not in områder else 'Gamlescenen'
+        sal = 'Hovedscenen' if 'Parkett' in områder and 'Galleri' in områder and 'Balkong' not in områder else 'Gamle scene'
+
+        totalt_rader = sum(1 for line in lines 
+                           if line.strip() 
+                           not in ["Galleri", "Balkong", "Parkett"] 
+                           and "Dato" not in line)
+        
+        rad_nr = totalt_rader
 
         for line in lines:
             if "Dato" in line: 
@@ -26,20 +31,21 @@ def registrert_solge_seter(filename):
 
             elif line.strip() in ["Galleri", "Balkong", "Parkett"]:
                 område = line.strip()
-                rad_nr = 0
+                
             else:
-                rad_nr += 1
                 for sete_nr, sete in enumerate(line.strip(), start=1):
                     if sete == '1':
+                        område_Galleri = ''
                         if område == 'Galleri' and sal == 'Hovedscenen':
-                            if sete_nr <= 10:  
+                            if rad_nr == 19 or rad_nr == 20:  
                                 område_Galleri = 'Nedre'
-                            else:
+                            elif rad_nr == 21 or rad_nr == 22: 
                                 område_Galleri= 'Øvre'
-
                             solgt_seter.append((sete_nr, område_Galleri, område))
                         else:
                             solgt_seter.append((sete_nr, rad_nr, område))
+                rad_nr -= 1
+
         return solgt_seter, sal, dato
     
 BillettID = 1
@@ -81,10 +87,25 @@ def Registrer_Billett(solgt_seter, sal, dato, kundeID):
 
 
 solgt_seter, sal, dato = registrert_solge_seter('gamle-scene.txt')
-solgt_seter1, sal, dato = registrert_solge_seter('hovedscenen.txt')
+
+solgt_seter1, sal1, dato1 = registrert_solge_seter('hovedscenen.txt')
 
 Registrer_Billett(solgt_seter, sal, dato, 1)
-Registrer_Billett(solgt_seter1, sal, dato, 2)
-print("Billetter registrert")
+Registrer_Billett(solgt_seter1, sal1, dato1, 2)
 
+def print_table_data(c, table_name):
+    c.execute(f"SELECT * FROM {table_name}")
+    rows = c.fetchall()
+    print(f"Data from {table_name}:")
+    for row in rows:
+        print(row)
+
+# After committing the transaction
 conn.commit()
+
+# Print data from tables
+print_table_data(c, "Billett")
+print_table_data(c, "BillettSolgtTilForestilling")
+print_table_data(c, "Billettkjøp")
+
+

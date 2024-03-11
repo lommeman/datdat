@@ -82,7 +82,7 @@ CREATE TABLE Billettkjøp(
 CREATE TABLE Billett(
     BillettID INTEGER NOT NULL,
     Setenr INTEGER NOT NULL,
-    Radnr INTEGER NOT NULL,
+    Radnr INTEGER NOT NULL, --byttet til text
     OmrådeNavn TEXT NOT NULL,
     PRIMARY KEY(BillettID),
     FOREIGN KEY(OmrådeNavn) REFERENCES Område(Navn)
@@ -111,7 +111,7 @@ CREATE TABLE Område(
 CREATE TABLE Gruppe(
     TeaterstykkeNavn TEXT NOT NULL,
     Gruppenavn TEXT NOT NULL,
-    Pris INTEGER NOT NULL, -- pris må være satt for hver gruppe som tilbys for et teaterstykke
+    Pris TEXT NOT NULL, -- pris må være satt for hver gruppe som tilbys for et teaterstykke
     PRIMARY KEY(TeaterstykkeNavn, Gruppenavn),
     FOREIGN KEY(TeaterstykkeNavn) REFERENCES Teaterstykke(Navn)
 );
