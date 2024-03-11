@@ -86,12 +86,12 @@ def Registrer_Billett(solgt_seter, sal, dato, kundeID):
     
 
 
-solgt_seter, sal, dato = registrert_solge_seter('gamle-scene.txt')
+solgt_seter_kjærligheten, sal_kjærligheten, dato_kjærligheten = registrert_solge_seter('gamle-scene.txt')
 
-solgt_seter1, sal1, dato1 = registrert_solge_seter('hovedscenen.txt')
+solgt_seter_kongsemne, sal_kongsemne, dato_kongsemne = registrert_solge_seter('hovedscenen.txt')
 
-Registrer_Billett(solgt_seter, sal, dato, 1)
-Registrer_Billett(solgt_seter1, sal1, dato1, 2)
+Registrer_Billett(solgt_seter_kjærligheten, sal_kjærligheten, dato_kjærligheten, 1)
+Registrer_Billett(solgt_seter_kongsemne, sal_kongsemne, dato_kongsemne, 2)
 
 def print_table_data(c, table_name):
     c.execute(f"SELECT * FROM {table_name}")
