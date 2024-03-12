@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('DBTeater.db')
+conn = sqlite3.connect('new6.db')
 c = conn.cursor()
 
 
@@ -15,12 +15,8 @@ def registrert_solge_seter(filename):
         områder = set(line.strip() for line in lines if line.strip() in ["Galleri", "Balkong", "Parkett"])
         sal = 'Hovedscenen' if 'Parkett' in områder and 'Galleri' in områder and 'Balkong' not in områder else 'Gamle scene'
 
-        totalt_rader = sum(1 for line in lines 
-                           if line.strip() 
-                           not in ["Galleri", "Balkong", "Parkett"] 
-                           and "Dato" not in line)
-        
-        rad_nr = totalt_rader
+        område_rader = {"Galleri": [], "Balkong": [], "Parkett": []}
+        current_område = None
 
         for line in lines:
             if "Dato" in line: 
@@ -30,25 +26,30 @@ def registrert_solge_seter(filename):
                         dato =  word
 
             elif line.strip() in ["Galleri", "Balkong", "Parkett"]:
-                område = line.strip()
+                current_område = line.strip()
                 
             else:
-                for sete_nr, sete in enumerate(line.strip(), start=1):
+                område_rader[current_område].append(line.strip())
+
+        solgt_seter = []
+        for område, rader in område_rader.items():
+            for rad_nr, rad in enumerate(reversed(rader), start=1):
+                for sete_nr, sete in enumerate(rad, start=1):
                     if sete == '1':
                         område_Galleri = ''
                         if område == 'Galleri' and sal == 'Hovedscenen':
-                            if rad_nr == 19 or rad_nr == 20:  
+                            if rad_nr == 1 or rad_nr == 2:  
                                 område_Galleri = 'Nedre'
-                            elif rad_nr == 21 or rad_nr == 22: 
+                            elif rad_nr == 3 or rad_nr == 4: 
                                 område_Galleri= 'Øvre'
                             solgt_seter.append((sete_nr, område_Galleri, område))
                         else:
                             solgt_seter.append((sete_nr, rad_nr, område))
-                rad_nr -= 1
 
         return solgt_seter, sal, dato
     
 BillettID = 1
+    
 
 def check_kunde_exists(kundeID):
     c.execute("SELECT * FROM Kunde WHERE kundeID = ?", (kundeID,))

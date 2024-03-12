@@ -111,7 +111,7 @@ CREATE TABLE Område(
 CREATE TABLE Gruppe(
     TeaterstykkeNavn TEXT NOT NULL,
     Gruppenavn TEXT NOT NULL,
-    Pris TEXT NOT NULL, -- pris må være satt for hver gruppe som tilbys for et teaterstykke
+    Pris INTEGER NOT NULL, -- Endret til integer pris må være satt for hver gruppe som tilbys for et teaterstykke
     PRIMARY KEY(TeaterstykkeNavn, Gruppenavn),
     FOREIGN KEY(TeaterstykkeNavn) REFERENCES Teaterstykke(Navn)
 );
