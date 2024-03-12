@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('new2.db')
+conn = sqlite3.connect('new6.db')
 c = conn.cursor()
 
 #Antar her at vi bruker samme tekstfiler som i oppgave 2
@@ -20,16 +20,9 @@ def kjøp_billetter(filename, gruppe):
         c.execute("SELECT Pris FROM Gruppe WHERE TeaterstykkeNavn = ? AND Gruppenavn = ?", (TeaterstykkeNavn, gruppe))
         pris = c.fetchone()[0]
 
+        område_rader = {"Galleri": [], "Balkong": [], "Parkett": []}
+        current_område = None
 
-        totalt_rader = sum(1 for line in lines 
-                           if line.strip() 
-                           not in ["Galleri", "Balkong", "Parkett"] 
-                           and "Dato" not in line)
-        
-        rad_nr = totalt_rader
-        antall_kjøpte_seter = 0
-
-       
 
         for line in lines:
             if "Dato" in line: 
@@ -39,32 +32,32 @@ def kjøp_billetter(filename, gruppe):
                         dato =  word
 
             elif line.strip() in ["Galleri", "Balkong", "Parkett"]:
-                område = line.strip()
-                rad_nr = totalt_rader
-            else:
-                seter = list(line.strip())
+                current_område = line.strip()
+            elif current_område:
+                område_rader[current_område].append(line)
+
+        funnet_seter = False
+        for område, rader in område_rader.items():
+            if funnet_seter:
+                break
+            for rad_nr, rad in enumerate(reversed(rader), start=1):
+                seter = list(rad.strip())
                 ledige_seter = []
 
                 for i, sete in enumerate(seter):
                     if sete == '0':
                         ledige_seter.append(i)
 
-                
-                for i in ledige_seter:
-                    if antall_kjøpte_seter < 9:
-                        if i not in solgt_seter.append((i + 1, rad_nr, område))
-                        antall_kjøpte_seter += 1
-                        if antall_kjøpte_seter == 9:
-                            break
-            rad_nr -= 1
-        
-            if antall_kjøpte_seter == 9:
-                break
+                if len(ledige_seter) >= 9:
+                    solgt_seter.extend([(i + 1, rad_nr, område) for i in ledige_seter[:9]])
+                    funnet_seter = True
+                    break
 
-        sum_kostnad = len(solgt_seter) * pris
-        return solgt_seter, sal, dato, sum_kostnad
-    
+    sum_kostnad = len(solgt_seter) * pris
+    return solgt_seter, sal, dato, sum_kostnad
+
 BillettID = 1
+
 
 def check_kunde_exists(kundeID):
     c.execute("SELECT * FROM Kunde WHERE kundeID = ?", (kundeID,))
@@ -119,7 +112,7 @@ conn.commit()
 # Print data from tables
 print("Total pris for billettene blir:", sum_kostnad)
 print_table_data(c, "Billett")
-print_table_data(c, "BillettSolgtTilForestilling")
-print_table_data(c, "Billettkjøp")
+#print_table_data(c, "BillettSolgtTilForestilling")
+#print_table_data(c, "Billettkjøp")
 
 
