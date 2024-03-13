@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect('new6.db')
+conn = sqlite3.connect('testing.db')
 c = conn.cursor()
 
 #Antar her at vi bruker samme tekstfiler som i oppgave 2

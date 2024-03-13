@@ -40,10 +40,12 @@ CREATE TABLE Akt(
 CREATE TABLE HarRolle(
     Aktnr INTEGER NOT NULL,
     AnsattID INTEGER NOT NULL,
-    Rollenavn TEXT NOT NULL, 
-    PRIMARY KEY(Aktnr, AnsattID),
+    Rollenavn TEXT NOT NULL,
+    Teaterstykkenavn TEXT NOT NULL, 
+    PRIMARY KEY(Aktnr, AnsattID, Rollenavn),
     FOREIGN KEY(Aktnr) REFERENCES Akt(Aktnr),
-    FOREIGN KEY(AnsattID) REFERENCES Ansatt(AnsattID)
+    FOREIGN KEY(AnsattID) REFERENCES Ansatt(AnsattID),
+    FOREIGN KEY(Teaterstykkenavn) REFERENCES Teaterstykke(Navn)
 );
 
 CREATE TABLE JobbiStykke(
