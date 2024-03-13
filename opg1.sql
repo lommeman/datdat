@@ -20,7 +20,7 @@ VALUES ('Kongsemnene', 1, 'Akt 1'),
        ('Kongsemnene', 2, 'Akt 2'),
        ('Kongsemnene', 3, 'Akt 3'),
        ('Kongsemnene', 4, 'Akt 4'),
-       ('Kongsemenene', 5, 'Akt 5'),
+       ('Kongsemnene', 5, 'Akt 5'),
        ('Størst av alt er kjærligheten', 1, 'Akt 1');
 
 INSERT INTO Sal(Navn, TeaterstykkeNavn) 
