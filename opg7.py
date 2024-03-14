@@ -1,4 +1,5 @@
 import sqlite3
+import argparse
 
 def print_actors_played_with(actor_name):
     conn = sqlite3.connect('testing.db')
@@ -19,4 +20,8 @@ def print_actors_played_with(actor_name):
 
     conn.close()
 
-print_actors_played_with('Madeleine Brandtzæg Nilsen')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Finn skuespillere som har spilt sammen med en annen skuespiller.')
+    parser.add_argument('actor_name', type=str, help='Navnet på skuespilleren du vil finne medspillere for.')
+    args = parser.parse_args()
+    print_actors_played_with(args.actor_name)

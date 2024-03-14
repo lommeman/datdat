@@ -1,4 +1,5 @@
 import sqlite3
+import argparse
 
 def print_performances_on_date(date):
     conn = sqlite3.connect('testing.db')
@@ -17,4 +18,8 @@ def print_performances_on_date(date):
 
     conn.close()
 
-print_performances_on_date('2024-02-05')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Skriv ut forestillinger for en gitt dato.')
+    parser.add_argument('date', type=str, help='Datoen du søker på i YYYY-MM-DD format.')
+    args = parser.parse_args()
+    print_performances_on_date(args.date)

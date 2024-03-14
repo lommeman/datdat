@@ -1,9 +1,8 @@
 import sqlite3
+import argparse
 
 conn = sqlite3.connect('testing.db')
 c = conn.cursor()
-
-
 
 def registrert_solge_seter(filename):
     with open(filename, 'r') as f:
@@ -83,16 +82,6 @@ def Registrer_Billett(solgt_seter, sal, dato, kundeID):
         c.execute("INSERT INTO Billett(BillettID, Setenr, Radnr, OmrådeNavn) VALUES (?, ?, ?, ?)", (BillettID,) + sete)
         c.execute("INSERT INTO BillettSolgtTilForestilling(BillettID, ForestillingDato, TeaterstykkeNavn) VALUES (?, ?, ?)", (BillettID, dato , TeaterstykkeNavn) )
         c.execute("INSERT INTO Billettkjøp(BillettID, SamlekjøpID) VALUES (?, ?)", (BillettID, kundeID))
-    
-    
-
-
-solgt_seter_kjærligheten, sal_kjærligheten, dato_kjærligheten = registrert_solge_seter('gamle-scene.txt')
-
-solgt_seter_kongsemne, sal_kongsemne, dato_kongsemne = registrert_solge_seter('hovedscenen.txt')
-
-Registrer_Billett(solgt_seter_kjærligheten, sal_kjærligheten, dato_kjærligheten, 1)
-Registrer_Billett(solgt_seter_kongsemne, sal_kongsemne, dato_kongsemne, 2)
 
 def print_table_data(c, table_name):
     c.execute(f"SELECT * FROM {table_name}")
@@ -101,12 +90,19 @@ def print_table_data(c, table_name):
     for row in rows:
         print(row)
 
-# After committing the transaction
-conn.commit()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Les inn solgte billetter fra fil og registrer dem i databasen.')
+    parser.add_argument('filename', type=str, help='Fil som inneholder informasjon om solgte seter.')
+    args = parser.parse_args()
 
-# Print data from tables
-print_table_data(c, "Billett")
-print_table_data(c, "BillettSolgtTilForestilling")
-print_table_data(c, "Billettkjøp")
+    solgt_seter, sal, dato = registrert_solge_seter(args.filename)
+    Registrer_Billett(solgt_seter, sal, dato, 1)
 
+    # After committing the transaction
+    conn.commit()
+
+    # Print data from tables
+    print_table_data(c, "Billett")
+    print_table_data(c, "BillettSolgtTilForestilling")
+    print_table_data(c, "Billettkjøp")
 
