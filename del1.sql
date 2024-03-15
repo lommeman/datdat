@@ -88,7 +88,7 @@ CREATE TABLE Billett(
     OmrådeNavn TEXT NOT NULL,
     PRIMARY KEY(BillettID),
     FOREIGN KEY(OmrådeNavn) REFERENCES Område(Navn)
-    
+    --UNIQUE (Setenr, Radnr, OmrådeNavn)  
 );
 
 --byttet hvor pris står henn, står bare i gruppe nå
@@ -100,7 +100,8 @@ CREATE TABLE BillettSolgtTilForestilling(
     PRIMARY KEY(BillettID),
     FOREIGN KEY(BillettID) REFERENCES Billett(BillettID),
     FOREIGN KEY(ForestillingDato) REFERENCES Forestilling(Dato),
-    FOREIGN KEY(TeaterstykkeNavn) REFERENCES Teaterstykke(Navn)
+    FOREIGN KEY(TeaterstykkeNavn) REFERENCES Teaterstykke(Navn),
+    UNIQUE (ForestillingDato, TeaterstykkeNavn, BillettID)
 );
  
 CREATE TABLE Område(

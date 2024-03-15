@@ -1,7 +1,8 @@
 import sqlite3
 import argparse
+from datetime import datetime
 
-conn = sqlite3.connect('testing.db')
+conn = sqlite3.connect('TeaterDB.db')
 c = conn.cursor()
 
 def registrert_solge_seter(filename):
@@ -63,16 +64,11 @@ def Registrer_Billett(solgt_seter, sal, dato, kundeID):
     c.execute("SELECT Navn FROM Teaterstykke WHERE Salnavn = ?", (sal,))
     TeaterstykkeNavn = c.fetchone()[0]
 
-    if not check_kunde_exists(1):
-        c.execute("INSERT INTO Kunde(kundeID, Mobilnr, Navn, Adresse) VALUES (1, '69696969', 'Renegaid Raider', 'Yo mams blv 69')")
-    if not check_kunde_exists(2):
-        c.execute("INSERT INTO Kunde(kundeID, Mobilnr, Navn, Adresse) VALUES (2, '47845632', 'Big Chungus', 'Yo dads blv 69')")
-
-    if not check_samlekjop_exists(1):
-        c.execute("INSERT INTO Samlekjøp(SamlekjøpID, KundeID, Dato, Tid) VALUES (1, 1, '2023-04-20', '13:37')")
-    if not check_samlekjop_exists(2):
-        c.execute("INSERT INTO Samlekjøp(SamlekjøpID, KundeID, Dato, Tid) VALUES (2, 2, '2023-04-20', '15:20')")
-    
+    now = datetime.now()
+ 
+    current_date = now.strftime("%Y-%m-%d")
+    current_time = now.strftime("%H:%M")
+   
     c.execute("SELECT MAX(BillettID) FROM Billett")
     result = c.fetchone()
     BillettID = result[0] if result[0] is not None else 0
@@ -82,6 +78,11 @@ def Registrer_Billett(solgt_seter, sal, dato, kundeID):
         c.execute("INSERT INTO Billett(BillettID, Setenr, Radnr, OmrådeNavn) VALUES (?, ?, ?, ?)", (BillettID,) + sete)
         c.execute("INSERT INTO BillettSolgtTilForestilling(BillettID, ForestillingDato, TeaterstykkeNavn) VALUES (?, ?, ?)", (BillettID, dato , TeaterstykkeNavn) )
         c.execute("INSERT INTO Billettkjøp(BillettID, SamlekjøpID) VALUES (?, ?)", (BillettID, kundeID))
+
+    c.execute(f"""
+    INSERT INTO Samlekjøp(SamlekjøpID, KundeID, Dato, Tid) 
+    VALUES ((SELECT MAX(SamlekjøpID) + 1 FROM Samlekjøp), '{kundeID}', '{current_date}', '{current_time}')
+    """)
 
 def print_table_data(c, table_name):
     c.execute(f"SELECT * FROM {table_name}")
@@ -98,10 +99,8 @@ if __name__ == "__main__":
     solgt_seter, sal, dato = registrert_solge_seter(args.filename)
     Registrer_Billett(solgt_seter, sal, dato, 1)
 
-    # After committing the transaction
     conn.commit()
 
-    # Print data from tables
     print_table_data(c, "Billett")
     print_table_data(c, "BillettSolgtTilForestilling")
     print_table_data(c, "Billettkjøp")

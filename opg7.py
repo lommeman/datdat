@@ -2,7 +2,7 @@ import sqlite3
 import argparse
 
 def print_actors_played_with(actor_name):
-    conn = sqlite3.connect('testing.db')
+    conn = sqlite3.connect('TeaterDB.db')
     c = conn.cursor()
 
     c.execute("""

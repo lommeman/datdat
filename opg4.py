@@ -2,7 +2,7 @@ import sqlite3
 import argparse
 
 def print_performances_on_date(date):
-    conn = sqlite3.connect('testing.db')
+    conn = sqlite3.connect('TeaterDB.db')
     c = conn.cursor()
 
     c.execute("""
